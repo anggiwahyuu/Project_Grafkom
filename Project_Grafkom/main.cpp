@@ -2,9 +2,40 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <time.h>
+#include <iostream>
+
+bool lompat = true;
+bool movee = true;
+float jump;
+float movement;
+float bot;
+
+float posisiX[2] = {5.2, 10.2};
+float posisiY[2] = {1.6, 4.6};
+
+float x[2] = {0, 3.5};
+float y[2] = {0, 3.5};
+
+void colliderPersegi()
+{
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glColor4f(1,1,1,0);
+    glVertex2f(posisiX[0], posisiY[0]); //H6
+    glVertex2f(posisiX[1], posisiY[0]); //I6
+    glVertex2f(posisiX[1], posisiY[1]); //J6
+    glVertex2f(posisiX[0], posisiY[1]); //G2
+    glEnd();
+    glPopMatrix();
+}
 
 void sapi()
 {
+    colliderPersegi();
+
+    glPushMatrix();
+    glTranslated(movement,jump,0);
 //bagian kepala sapi
     //telinga kiri sapi
     glColor3f(0,0,0);
@@ -501,14 +532,81 @@ void sapi()
     glVertex2f(8.4, 2.2); //D5
     glEnd();
 
-    glutSwapBuffers();
+    glPopMatrix();
+}
+
+void box()
+{
+    glPushMatrix();
+    glTranslated(-5,0,0);
+    glTranslated(bot,0,0);
+    glBegin(GL_POLYGON);
+    glColor3f(0,0,0);
+    glVertex2f(x[0], y[0]);
+    glVertex2f(x[1], y[0]);
+    glVertex2f(x[1], y[1]);
+    glVertex2f(x[0], y[1]);
+    glEnd();
+    glPopMatrix();
+}
+
+void displaybox()
+{
+    float a = 0;
+    float b = 5;
+    for (int i = 0; i<=100; i++){
+        glPushMatrix();
+        glTranslated(a,0,0);
+        box();
+        glPopMatrix();
+        a -= b;
+        b += 5;
+    }
+}
+
+void characterController(int data){
+    if(GetAsyncKeyState(VK_LEFT)){
+        if (posisiX[0] >= 0){
+            posisiX[0] -= 1.0f;
+            posisiX[1] -= 1.0f;
+            movement-=1.0f;
+        }
+    } else if(GetAsyncKeyState(VK_RIGHT)){
+        if (posisiX[1] <= 30){
+            posisiX[0] += 1.0f;
+            posisiX[1] += 1.0f;
+            movement+=1.0f;
+        }
+    }
+    if(GetAsyncKeyState(VK_UP)){
+        if (posisiY[1] <= 15){
+            posisiY[0] += 1.0f;
+            posisiY[1] += 1.0f;
+            jump+=1.0f;
+        }
+    } else if (lompat == true){
+        if (posisiY[0] >= 1){
+            posisiY[0] -= 0.5f;
+            posisiY[1] -= 0.5f;
+            jump-=0.5f;
+        }
+    }
+    if (movee == true){
+        x[0] += 0.1f;
+        x[1] += 0.1f;
+        bot += 0.1f;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(20,characterController,0);
 }
 
 void displayMe()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     sapi();
+    displaybox();
     glFlush();
+    glutSwapBuffers();
 }
 
 void myinit()
@@ -516,9 +614,9 @@ void myinit()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
-    gluOrtho2D(0,15,0,15);
     glClearColor(1.0,1.0,0.0,1.0);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 int main(int argc, char** argv)
@@ -526,9 +624,11 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     glutInitWindowPosition(0,0);
-    glutInitWindowSize(800,800);
+    glutInitWindowSize(750,750);
     glutCreateWindow("Execute");
+    gluOrtho2D(0,30,0,30);
     glutDisplayFunc(displayMe);
+    glutTimerFunc(1,characterController,0);
     myinit();
     glutMainLoop();
     return 0;

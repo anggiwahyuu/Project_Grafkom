@@ -220,3 +220,15 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
+1606198558 source:d:\github\project_grafkom\project_grafkom\main.cpp
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<time.h>
+	<iostream>
+
+1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
+	<_mingw.h>
+	<stddef.h>
+
