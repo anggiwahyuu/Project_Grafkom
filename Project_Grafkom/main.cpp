@@ -579,10 +579,10 @@ void characterController(int data){
         }
     }
     if(GetAsyncKeyState(VK_UP)){
-        if (posisiY[1] <= 15){
-            posisiY[0] = 6.0f;
-            posisiY[1] = 6.0f;
-            jump = 6.0f;
+        if (posisiY[1] <= 10){
+            posisiY[0] += 1.0f;
+            posisiY[1] += 1.0f;
+            jump += 1.0f;
         }
     } else if (lompat == true){
         if (posisiY[0] >= 1){
