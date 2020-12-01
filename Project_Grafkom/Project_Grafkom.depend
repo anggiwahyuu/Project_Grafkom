@@ -215,28 +215,24 @@
 	<stddef.h>
 	<GL/gl.h>
 
-881786480 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+903432286 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
 
-1606216091 source:d:\github\project_grafkom\project_grafkom\main.cpp
+1606785506 source:d:\github\project_grafkom\project_grafkom\main.cpp
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
 	<time.h>
 	<iostream>
+	<math.h>
 
 1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
 	<_mingw.h>
 	<stddef.h>
 
-1606221104 source:d:\kuliah\semester iii\grafika komputer\project_grafkom\project_grafkom\main.cpp
-	<windows.h>
-	<GL/gl.h>
-	<GL/glu.h>
-	<GL/glut.h>
-	<time.h>
-	<iostream>
+1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
+	<_mingw.h>
 
