@@ -11,6 +11,7 @@ bool movee = true;
 float jump;
 float movement;
 float bot;
+float n;
 
 float posisiX[2] = {5.2, 10.2};
 float posisiY[2] = {1.6, 4.6};
@@ -559,10 +560,10 @@ void box()
     glPopMatrix();
 }
 
-//membuat background
-void background()
+//membuat jalan yang dilalui sapi
+void jalan()
 {
-    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
 
     //Bagian tanah berwarna coklat
     glColor3ub(169,127,91);
@@ -572,7 +573,6 @@ void background()
     glVertex2i(124,10);
     glVertex2i(124,0);
     glEnd();
-    glFlush();
 
     //Bagian rumput yang tampak samping
     glColor3ub(61,204,84);
@@ -582,7 +582,6 @@ void background()
     glVertex2i(124,13);
     glVertex2i(124,10);
     glEnd();
-    glFlush();
 
     //Bagian jalan untuk sapi
     glColor3ub(167,235,86);
@@ -592,7 +591,6 @@ void background()
     glVertex2i(124,29);
     glVertex2i(124,13);
     glEnd();
-    glFlush();
 
     //Bagian jalan (rumput) untuk sapi
     glColor3ub(167,235,86);
@@ -602,7 +600,17 @@ void background()
     glVertex2i(124,29);
     glVertex2i(124,13);
     glEnd();
-    glFlush();
+
+    glPopMatrix();
+}
+
+//membuat rumah
+void rumah()
+{
+    jalan();
+
+    glPushMatrix();
+    glTranslated(n,0,0);
 
     //Bagian lantai rumah
     glColor3ub(160,135,104);
@@ -612,7 +620,6 @@ void background()
     glVertex2i(42,31.5);
     glVertex2i(42,29);
     glEnd();
-    glFlush();
 
     //Bagian bagan rumah
     glColor3ub(180,152,113);
@@ -622,7 +629,6 @@ void background()
     glVertex2i(41.7,60);
     glVertex2i(41.7,31.5);
     glEnd();
-    glFlush();
 
     //Bagian garis kecil diantara bagan rumah dan atap
     glColor3ub(160,135,104);
@@ -632,7 +638,6 @@ void background()
     glVertex2i(41.7,62);
     glVertex2i(41.7,60);
     glEnd();
-    glFlush();
 
     //Bagian pintu rumah di bagan
     glColor3ub(86,74,58);
@@ -642,7 +647,6 @@ void background()
     glVertex2i(27,50);
     glVertex2i(27,31.5);
     glEnd();
-    glFlush();
 
     //garis pintu kiri
     glColor3ub(239,229,217);
@@ -652,7 +656,6 @@ void background()
     glVertex2i(19,60);
     glVertex2i(19,31.5);
     glEnd();
-    glFlush();
 
     //garis pintu kanan
     glColor3ub(239,229,217);
@@ -662,7 +665,6 @@ void background()
     glVertex2i(29,60);
     glVertex2i(29,31.5);
     glEnd();
-    glFlush();
 
     //garis pintu atas
     glColor3ub(239,229,217);
@@ -672,7 +674,6 @@ void background()
     glVertex2i(28,62);
     glVertex2i(28,60);
     glEnd();
-    glFlush();
 
     //jendela kiri
     glColor3ub(86,74,58);
@@ -682,7 +683,6 @@ void background()
     glVertex2i(15,50);
     glVertex2i(15,40);
     glEnd();
-    glFlush();
 
      //jendela kanan
     glColor3ub(86,74,58);
@@ -692,7 +692,6 @@ void background()
     glVertex2i(38,50);
     glVertex2i(38,40);
     glEnd();
-    glFlush();
 
     //cerobong asap
     glColor3ub(160,135,104);
@@ -702,7 +701,6 @@ void background()
     glVertex2i(12,81);
     glVertex2i(12,62);
     glEnd();
-    glFlush();
 
     //atap 1
     glColor3ub(231,214,194);
@@ -712,7 +710,6 @@ void background()
     glVertex2i(42,64);
     glVertex2i(42,62);
     glEnd();
-    glFlush();
 
     //atap 2
     glColor3ub(231,214,194);
@@ -722,7 +719,6 @@ void background()
     glVertex2i(41,66);
     glVertex2i(41,64);
     glEnd();
-    glFlush();
 
     //atap 3
     glColor3ub(231,214,194);
@@ -732,7 +728,6 @@ void background()
     glVertex2i(40,68);
     glVertex2i(40,66);
     glEnd();
-    glFlush();
 
     //atap 4
     glColor3ub(231,214,194);
@@ -742,7 +737,6 @@ void background()
     glVertex2i(39,70);
     glVertex2i(39,68);
     glEnd();
-    glFlush();
 
     //atap 5
     glColor3ub(231,214,194);
@@ -752,7 +746,6 @@ void background()
     glVertex2i(38,72);
     glVertex2i(38,70);
     glEnd();
-    glFlush();
 
     //atap 6
     glColor3ub(231,214,194);
@@ -762,7 +755,6 @@ void background()
     glVertex2i(37,74);
     glVertex2i(37,72);
     glEnd();
-    glFlush();
 
     //atap 6
     glColor3ub(231,214,194);
@@ -772,7 +764,6 @@ void background()
     glVertex2i(36,76);
     glVertex2i(36,74);
     glEnd();
-    glFlush();
 
     //atap 7
     glColor3ub(231,214,194);
@@ -782,7 +773,6 @@ void background()
     glVertex2i(35,78);
     glVertex2i(35,76);
     glEnd();
-    glFlush();
 
     //atap 8
     glColor3ub(231,214,194);
@@ -792,7 +782,6 @@ void background()
     glVertex2i(34,80);
     glVertex2i(34,78);
     glEnd();
-    glFlush();
 
     //atap 9
     glColor3ub(231,214,194);
@@ -802,7 +791,6 @@ void background()
     glVertex2i(33,82);
     glVertex2i(33,80);
     glEnd();
-    glFlush();
 
     //atap 10
     glColor3ub(231,214,194);
@@ -812,7 +800,8 @@ void background()
     glVertex2i(32,84);
     glVertex2i(32,82);
     glEnd();
-    glFlush();
+
+    glPopMatrix();
 }
 
 //looping pada box
@@ -821,7 +810,7 @@ void displaybox()
     float a = 0;
     float b = 70;
     float c = 17;
-    for (int i = 0; i<=100; i++){
+    for (int i = 0; i<=1000; i++){
         glPushMatrix();
         glTranslated(a,c,0);
         box();
@@ -833,6 +822,19 @@ void displaybox()
         else if (i%2 != 0){
             c = 17;
         }
+    }
+}
+
+//membuat looping pada rumah
+void displayRumah()
+{
+    float a = 0;
+    for (int i = 0; i<=1000; i++){
+        glPushMatrix();
+        glTranslated(a,0,0);
+        rumah();
+        glPopMatrix();
+        a -= 75;
     }
 }
 
@@ -869,6 +871,16 @@ void characterController(int data){
     glutTimerFunc(20,characterController,0);
 }
 
+//membuat background bergerak
+void houseMove(int data)
+{
+    if (movee == true){
+        n += 0.5f;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(25,houseMove,0);
+}
+
 //movement speed box
 void boxMove(int data)
 {
@@ -884,7 +896,7 @@ void boxMove(int data)
 void displayMe()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    background();
+    displayRumah();
     displaybox();
     sapi();
     glFlush();
@@ -912,6 +924,7 @@ int main(int argc, char** argv)
     glutDisplayFunc(displayMe);
     glutTimerFunc(1,characterController,0);
     glutTimerFunc(1,boxMove,0);
+    glutTimerFunc(1,houseMove,0);
     myinit();
     glutMainLoop();
     return 0;
