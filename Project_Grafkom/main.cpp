@@ -8,19 +8,21 @@
 
 bool lompat = true;
 bool movee = true;
+bool jatuh = true;
 float jump;
 float movement;
 float bot;
+float bot2;
 float n;
 
 float posisiX[2] = {5.2, 10.2};
 float posisiY[2] = {1.6, 4.6};
 
-float x[2] = {0, 3.5};
-float y[2] = {0, 3.5};
+float x[4] = {0, 3.5, 0, 3.5};
+float y[4] = {0, 3.5, 0, 3.5};
 
-//membuat collider
-void colliderPersegi()
+//membuat collider pada sapi
+void colliderSapi()
 {
     glPushMatrix();
     glTranslated(40,10,0);
@@ -35,10 +37,128 @@ void colliderPersegi()
     glPopMatrix();
 }
 
+//membuat collider pada box yang bergerak horizontal
+void colliderBox1()
+{
+    glPushMatrix();
+    glTranslated(-10,0,0);
+    glScalef(3,5,0);
+    glTranslated(bot,0,0);
+    glBegin(GL_POLYGON);
+    glColor4ub(143,98,36,0);
+    glVertex2f(x[0], y[0]);
+    glVertex2f(x[1], y[0]);
+    glVertex2f(x[1], y[1]);
+    glVertex2f(x[0], y[1]);
+    glEnd();
+    glPopMatrix();
+}
+
+//membuat collider pada box2 yang bergerak vertikal
+void colliderBox2()
+{
+    glPushMatrix();
+    glScalef(3,5,0);
+    glTranslated(0,bot2,0);
+    glBegin(GL_POLYGON);
+    glColor4ub(143,98,36,0);
+    glVertex2f(x[2], y[2]);
+    glVertex2f(x[3], y[2]);
+    glVertex2f(x[3], y[3]);
+    glVertex2f(x[2], y[3]);
+    glEnd();
+    glPopMatrix();
+}
+
+//membuat sepatu roket pada sapi
+void animasiApi()
+{
+    glPushMatrix();
+
+//membuat sepatu merah sapi
+    glBegin(GL_QUADS);
+    glColor3f(1,0,0);
+    glVertex2f(6.6, 1.9);
+    glVertex2f(7.2, 1.9);
+    glVertex2f(7.2, 1.6);
+    glVertex2f(6.6, 1.6);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,0,0);
+    glVertex2f(7.4, 1.9);
+    glVertex2f(8, 1.9);
+    glVertex2f(8, 1.6);
+    glVertex2f(7.4, 1.6);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,0,0);
+    glVertex2f(8.2, 1.9);
+    glVertex2f(8.8, 1.9);
+    glVertex2f(8.8, 1.6);
+    glVertex2f(8.2, 1.6);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,0,0);
+    glVertex2f(9, 1.9);
+    glVertex2f(9.6, 1.9);
+    glVertex2f(9.6, 1.6);
+    glVertex2f(9, 1.6);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(24, 169, 201);
+    glVertex2f(6.8, 1.6);
+    glVertex2f(6.65064, 1.37571);
+    glVertex2f(6.59946, 1.1499);
+    glVertex2f(6.85926, 0.99057);
+    glVertex2f(7.09728, 1.1106);
+    glVertex2f(7.06453, 1.37261);
+    glVertex2f(7, 1.6);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(24, 169, 201);
+    glVertex2f(7.6, 1.6);
+    glVertex2f(7.45064, 1.37571);
+    glVertex2f(7.39946, 1.1499);
+    glVertex2f(7.65926, 0.99057);
+    glVertex2f(7.89728, 1.1106);
+    glVertex2f(7.86453, 1.37261);
+    glVertex2f(7.8, 1.6);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(24, 169, 201);
+    glVertex2f(8.4, 1.6);
+    glVertex2f(8.25064, 1.37571);
+    glVertex2f(8.19946, 1.1499);
+    glVertex2f(8.45926, 0.99057);
+    glVertex2f(8.69728, 1.1106);
+    glVertex2f(8.66453, 1.37261);
+    glVertex2f(8.6, 1.6);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(24, 169, 201);
+    glVertex2f(9.2, 1.6);
+    glVertex2f(9.05064, 1.37571);
+    glVertex2f(8.99946, 1.1499);
+    glVertex2f(9.25926, 0.99057);
+    glVertex2f(9.49728, 1.1106);
+    glVertex2f(9.46453, 1.37261);
+    glVertex2f(9.4, 1.6);
+    glEnd();
+
+    glPopMatrix();
+}
+
 //membuat karakter sapi
 void sapi()
 {
-    colliderPersegi();
+    colliderSapi();
 
     glPushMatrix();
     glTranslated(40,10,0);
@@ -540,23 +660,113 @@ void sapi()
     glVertex2f(8.4, 2.2); //D5
     glEnd();
 
+    if (GetAsyncKeyState(VK_UP)){
+        animasiApi();
+    }
+
     glPopMatrix();
 }
 
-//membuat rintangan berupa box
+//membuat rintangan berupa box yang bergerak secara horizontal
 void box()
 {
+    colliderBox1();
+
     glPushMatrix();
     glTranslated(-10,0,0);
     glScalef(3,5,0);
     glTranslated(bot,0,0);
-    glBegin(GL_POLYGON);
-    glColor3f(0,0,0);
-    glVertex2f(x[0], y[0]);
-    glVertex2f(x[1], y[0]);
-    glVertex2f(x[1], y[1]);
-    glVertex2f(x[0], y[1]);
+
+    glBegin(GL_QUADS);
+    glColor3ub(143,98,36);
+    glVertex2f(0, 3.5);
+    glVertex2f(0.5, 3.5);
+    glVertex2f(0.5, 0);
+    glVertex2f(0, 0);
     glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(0.5, 3.5);
+    glVertex2f(3, 3.5);
+    glVertex2f(3, 3);
+    glVertex2f(0.5, 3);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(3, 3.5);
+    glVertex2f(3.5, 3.5);
+    glVertex2f(3.5, 0);
+    glVertex2f(3, 0);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(0.5, 0.5);
+    glVertex2f(3, 0.5);
+    glVertex2f(3, 0);
+    glVertex2f(0.5, 0);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(143,98,36);
+    glVertex2f(0.5, 0.5);
+    glVertex2f(1, 0.5);
+    glVertex2f(3, 2.5);
+    glVertex2f(3, 3);
+    glVertex2f(2.5, 3);
+    glVertex2f(0.5, 1);
+    glEnd();
+
+    glPopMatrix();
+}
+
+//membuat rintangan berupa box yang bergerak secara vertikal
+void box2()
+{
+    colliderBox2();
+
+    glPushMatrix();
+    glScalef(3,5,0);
+    glTranslated(0,bot2,0);
+
+    glBegin(GL_QUADS);
+    glColor3ub(143,98,36);
+    glVertex2f(0, 3.5);
+    glVertex2f(0.5, 3.5);
+    glVertex2f(0.5, 0);
+    glVertex2f(0, 0);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(0.5, 3.5);
+    glVertex2f(3, 3.5);
+    glVertex2f(3, 3);
+    glVertex2f(0.5, 3);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(3, 3.5);
+    glVertex2f(3.5, 3.5);
+    glVertex2f(3.5, 0);
+    glVertex2f(3, 0);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(0.5, 0.5);
+    glVertex2f(3, 0.5);
+    glVertex2f(3, 0);
+    glVertex2f(0.5, 0);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3ub(143,98,36);
+    glVertex2f(0.5, 0.5);
+    glVertex2f(1, 0.5);
+    glVertex2f(3, 2.5);
+    glVertex2f(3, 3);
+    glVertex2f(2.5, 3);
+    glVertex2f(0.5, 1);
+    glEnd();
+
     glPopMatrix();
 }
 
@@ -804,7 +1014,7 @@ void rumah()
     glPopMatrix();
 }
 
-//looping pada box
+//looping pada box yang bergerak secara horizontal
 void displaybox()
 {
     float a = 0;
@@ -825,6 +1035,39 @@ void displaybox()
     }
 }
 
+//looping pada box2 yang bergerak secara vertikal
+void displaybox2()
+{
+    float a = 0;
+    float b = 124;
+    float c = 200;
+    for (int i=0; i<=1000; i++){
+        glPushMatrix();
+        glTranslated(a,b,0);
+        box2();
+        glPopMatrix();
+        b += c;
+        if (i%6 == 0){
+            a = 25;
+        }
+        else if (i%6 == 1){
+            a = 70;
+        }
+        else if (i%6 == 2){
+            a = 90;
+        }
+        else if (i%6 == 3){
+            a = 40;
+        }
+        else if (i%6 == 4){
+            a = 35;
+        }
+        else if (i%6 == 5){
+            a = 55;
+        }
+    }
+}
+
 //membuat looping pada rumah
 void displayRumah()
 {
@@ -840,12 +1083,14 @@ void displayRumah()
 
 //movement pada sapi
 void characterController(int data){
+    //ketika menekan left arrow
     if(GetAsyncKeyState(VK_LEFT)){
         if (posisiX[0] >= -14){
             posisiX[0] -= 1.0f;
             posisiX[1] -= 1.0f;
             movement -= 1.0f;
         }
+    //ketika menekan right arrow
     } else if(GetAsyncKeyState(VK_RIGHT)){
         if (posisiX[1] <= 29){
             posisiX[0] += 1.0f;
@@ -853,12 +1098,14 @@ void characterController(int data){
             movement += 1.0f;
         }
     }
+    //ketika menekan up arrow
     if(GetAsyncKeyState(VK_UP)){
         if (posisiY[1] <= 8){
             posisiY[0] += 1.0f;
             posisiY[1] += 1.0f;
             jump += 1.0f;
         }
+    //ketika sapi melompat adalah true
     } else if (lompat == true){
         if (posisiY[0] >= 2){
             posisiY[0] -= 1.0f;
@@ -881,16 +1128,28 @@ void houseMove(int data)
     glutTimerFunc(25,houseMove,0);
 }
 
-//movement speed box
-void boxMove(int data)
+//movement speed box horizontal
+void boxMoveHorizontal(int data)
 {
     if (movee == true){
-        x[0] += 0.1f;
-        x[1] += 0.1f;
-        bot += 0.1f;
+        x[0] += 0.3f;
+        x[1] += 0.3f;
+        bot += 0.3f;
     }
     glutPostRedisplay();
-    glutTimerFunc(10,boxMove,0);
+    glutTimerFunc(5,boxMoveHorizontal,0);
+}
+
+//movement speed box2 vertikal
+void boxMoveVertical(int data)
+{
+    if (jatuh == true){
+        y[2] -= 0.5f;
+        y[3] -= 0.5f;
+        bot2 -= 0.5f;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(5,boxMoveVertical,0);
 }
 
 void displayMe()
@@ -898,6 +1157,7 @@ void displayMe()
     glClear(GL_COLOR_BUFFER_BIT);
     displayRumah();
     displaybox();
+    displaybox2();
     sapi();
     glFlush();
     glutSwapBuffers();
@@ -923,7 +1183,8 @@ int main(int argc, char** argv)
     gluOrtho2D(0,124,0,124);
     glutDisplayFunc(displayMe);
     glutTimerFunc(1,characterController,0);
-    glutTimerFunc(1,boxMove,0);
+    glutTimerFunc(1,boxMoveHorizontal,0);
+    glutTimerFunc(1,boxMoveVertical,0);
     glutTimerFunc(1,houseMove,0);
     myinit();
     glutMainLoop();
