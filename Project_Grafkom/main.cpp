@@ -1171,10 +1171,12 @@ void displayTulisanSkor()
 }
 
 void hitungSkor(int data) {
-    number++;
+    if (skor == true) {
+        number++;
 
-    glutPostRedisplay();
-    glutTimerFunc(1, hitungSkor, 0);
+        glutPostRedisplay();
+        glutTimerFunc(1, hitungSkor, 0);
+    }
 }
 
 void displaySkor()
