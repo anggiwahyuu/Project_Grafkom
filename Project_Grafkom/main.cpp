@@ -5,21 +5,28 @@
 #include <time.h>
 #include <iostream>
 #include <math.h>
+#include <string.h>
+#include <sstream>
 
 bool lompat = true;
 bool movee = true;
 bool jatuh = true;
+bool skor = true;
+
 float jump;
 float movement;
 float bot;
 float bot2;
 float n;
-
 float posisiX[2] = {5.2, 10.2};
 float posisiY[2] = {1.6, 4.6};
 
 float x[4] = {0, 3.5, 0, 3.5};
 float y[4] = {0, 3.5, 0, 3.5};
+
+int number;
+
+using namespace std;
 
 //membuat collider pada sapi
 void colliderSapi()
@@ -164,7 +171,7 @@ void sapi()
     glTranslated(40,10,0);
     glScalef(3,5,0);
     glTranslated(movement,jump,0);
-//bagian kepala sapi
+    //bagian kepala sapi
     //telinga kiri sapi
     glColor3f(0,0,0);
     glBegin(GL_QUADS);
@@ -1152,12 +1159,47 @@ void boxMoveVertical(int data)
     glutTimerFunc(5,boxMoveVertical,0);
 }
 
+void displayTulisanSkor()
+{
+    glColor3f (1.0, 1.0, 1.0);
+    glRasterPos2f(1, 120);
+    char *string = "Skor: ";
+
+    while(*string) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *string++);
+    }
+}
+
+void hitungSkor(int data) {
+    number++;
+
+    glutPostRedisplay();
+    glutTimerFunc(1, hitungSkor, 0);
+}
+
+void displaySkor()
+{
+    glColor3f (1.0, 1.0, 1.0);
+    glRasterPos2f(5, 120);
+
+    stringstream strs;
+    strs << number;
+    string temp_str = strs.str();
+    char const* pchar = temp_str.c_str();
+
+    while(*pchar) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *pchar++);
+    }
+}
+
 void displayMe()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     displayRumah();
     displaybox();
     displaybox2();
+    displayTulisanSkor();
+    displaySkor();
     sapi();
     glFlush();
     glutSwapBuffers();
@@ -1186,6 +1228,7 @@ int main(int argc, char** argv)
     glutTimerFunc(1,boxMoveHorizontal,0);
     glutTimerFunc(1,boxMoveVertical,0);
     glutTimerFunc(1,houseMove,0);
+    glutTimerFunc(1, hitungSkor, 0);
     myinit();
     glutMainLoop();
     return 0;
