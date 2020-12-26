@@ -12,6 +12,7 @@ bool lompat = true;
 bool movee = true;
 bool jatuh = true;
 bool skor = true;
+bool start = false;
 
 float jump;
 float movement;
@@ -1093,6 +1094,7 @@ void displaybox()
     for (int i = 0; i<=1000; i++){
         glPushMatrix();
         glTranslated(a,c,0);
+        colliderBox1();
         box();
         glPopMatrix();
         a -= b;
@@ -1108,7 +1110,7 @@ void displaybox()
 //looping pada box2 yang bergerak secara vertikal
 void displaybox2()
 {
-    float a = 0;
+    float a = 90;
     float b = 124;
     float c = 200;
     for (int j=0; j<=1000; j++){
@@ -1151,39 +1153,48 @@ void displayRumah()
     }
 }
 
+//menambahkan fungsi keyboard
+void start_game(unsigned char key, int x, int y)
+{
+    if (key == 'a' || key == 'A'){
+        start = true;
+    }
+}
+
 //movement pada sapi
 void characterController(int data){
     //ketika menekan left arrow
-    if(GetAsyncKeyState(VK_LEFT)){
-        if (posisiX[0] >= -14){
-            posisiX[0] -= 1.0f;
-            posisiX[1] -= 1.0f;
-            movement -= 1.0f;
+    if (start == true){
+        if(GetAsyncKeyState(VK_LEFT)){
+            if (posisiX[0] >= -14){
+                posisiX[0] -= 1.0f;
+                posisiX[1] -= 1.0f;
+                movement -= 1.0f;
+            }
+        //ketika menekan right arrow
+        } else if(GetAsyncKeyState(VK_RIGHT)){
+            if (posisiX[1] <= 29){
+                posisiX[0] += 1.0f;
+                posisiX[1] += 1.0f;
+                movement += 1.0f;
+            }
         }
-    //ketika menekan right arrow
-    } else if(GetAsyncKeyState(VK_RIGHT)){
-        if (posisiX[1] <= 29){
-            posisiX[0] += 1.0f;
-            posisiX[1] += 1.0f;
-            movement += 1.0f;
+        //ketika menekan up arrow
+        if(GetAsyncKeyState(VK_UP)){
+            if (posisiY[1] <= 8){
+                posisiY[0] += 1.0f;
+                posisiY[1] += 1.0f;
+                jump += 1.0f;
+            }
+        //ketika sapi melompat adalah true
+        } else if (lompat == true){
+            if (posisiY[0] >= 2){
+                posisiY[0] -= 1.0f;
+                posisiY[1] -= 1.0f;
+                jump -= 1.0f;
+            }
         }
     }
-    //ketika menekan up arrow
-    if(GetAsyncKeyState(VK_UP)){
-        if (posisiY[1] <= 8){
-            posisiY[0] += 1.0f;
-            posisiY[1] += 1.0f;
-            jump += 1.0f;
-        }
-    //ketika sapi melompat adalah true
-    } else if (lompat == true){
-        if (posisiY[0] >= 2){
-            posisiY[0] -= 1.0f;
-            posisiY[1] -= 1.0f;
-            jump -= 1.0f;
-        }
-    }
-
     glutPostRedisplay();
     glutTimerFunc(20,characterController,0);
 }
@@ -1201,15 +1212,18 @@ void houseMove(int data)
 //movement speed box horizontal
 void boxMoveHorizontal(int data)
 {
-    if (movee == true){
-        x[0] += 0.3f;
-        x[1] += 0.3f;
-        bot += 0.3f;
-    }
-    if (posisiX[0] <= x[1]-17 && posisiY[0] <= y[1] && posisiX[1] >= x[0]-17 && posisiY[1] >= y[0]){
-        movee = false;
-        jatuh = false;
-        skor = false;
+    if (start == true){
+        if (movee == true){
+            x[0] += 0.3f;
+            x[1] += 0.3f;
+            bot += 0.3f;
+        }
+        if (posisiX[0] <= x[1]-17 && posisiY[0] <= y[1] && posisiX[1] >= x[0]-17 && posisiY[1] >= y[0]){
+            movee = false;
+            jatuh = false;
+            skor = false;
+            cout << "damage" << endl;
+        }
     }
     glutPostRedisplay();
     glutTimerFunc(5,boxMoveHorizontal,0);
@@ -1218,15 +1232,23 @@ void boxMoveHorizontal(int data)
 //movement speed box2 vertikal
 void boxMoveVertical(int data)
 {
-    if (jatuh == true){
-        y[2] -= 0.5f;
-        y[3] -= 0.5f;
-        bot2 -= 0.5f;
+    if (start == true){
+        if (jatuh == true){
+            y[2] -= 0.5f;
+            y[3] -= 0.5f;
+            bot2 -= 0.5f;
+        }
+        if (posisiX[0] <= x[3] && posisiY[0] <= y[3] && posisiX[1] >= x[2] && posisiY[1] >= y[2]){
+            movee = false;
+            jatuh = false;
+            skor = false;
+        }
     }
     glutPostRedisplay();
     glutTimerFunc(5,boxMoveVertical,0);
 }
 
+//menampilkan tulisan skor
 void displayTulisanSkor()
 {
     glColor3f (1.0, 1.0, 1.0);
@@ -1238,12 +1260,15 @@ void displayTulisanSkor()
     }
 }
 
+//menjumlahkan angka pada skor
 void hitungSkor(int data) {
-    if (skor == true) {
-        number++;
+    if (start == true){
+        if (skor == true) {
+            number++;
 
-        glutPostRedisplay();
-        glutTimerFunc(1, hitungSkor, 0);
+            glutPostRedisplay();
+            glutTimerFunc(1, hitungSkor, 0);
+        }
     }
 }
 
@@ -1262,6 +1287,17 @@ void displaySkor()
     }
 }
 
+//menampilkan menu awal
+void display_start()
+{
+    glColor3f(0,0,0);
+    glRasterPos2f(60,60);
+    char *string = "PRESS A TO START THE GAME";
+    while(*string) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *string++);
+    }
+}
+
 void displayMe()
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -1271,6 +1307,9 @@ void displayMe()
     displayTulisanSkor();
     displaySkor();
     sapi();
+    if (start == false){
+        display_start();
+    }
     if (posisiX[0] <= x[1]-17 && posisiY[0] <= y[1] && posisiX[1] >= x[0]-17 && posisiY[1] >= y[0]){
         kalah();
     }
@@ -1297,6 +1336,7 @@ int main(int argc, char** argv)
     glutCreateWindow("Execute");
     gluOrtho2D(0,124,0,124);
     glutDisplayFunc(displayMe);
+    glutKeyboardFunc(start_game);
     glutTimerFunc(1,characterController,0);
     glutTimerFunc(1,boxMoveHorizontal,0);
     glutTimerFunc(1,boxMoveVertical,0);
