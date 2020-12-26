@@ -1222,6 +1222,7 @@ void boxMoveHorizontal(int data)
             movee = false;
             jatuh = false;
             skor = false;
+            start = false;
             cout << "damage" << endl;
         }
     }
