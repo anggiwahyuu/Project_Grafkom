@@ -50,7 +50,6 @@ void colliderBox1()
     glPushMatrix();
     glTranslated(-10,0,0);
     glScalef(3,5,0);
-    glTranslated(bot,0,0);
     glBegin(GL_POLYGON);
     glColor4ub(143,98,36,0);
     glVertex2f(x[0], y[0]);
@@ -66,7 +65,6 @@ void colliderBox2()
 {
     glPushMatrix();
     glScalef(3,5,0);
-    glTranslated(0,bot2,0);
     glBegin(GL_POLYGON);
     glColor4ub(143,98,36,0);
     glVertex2f(x[2], y[2]);
@@ -1021,6 +1019,71 @@ void rumah()
     glPopMatrix();
 }
 
+//jika kalah
+void kalah()
+{
+    glPushMatrix();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(30,80);
+    glVertex2f(30,40);
+    glVertex2f(40,40);
+    glVertex2f(40,80);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(40,70);
+    glVertex2f(60,80);
+    glVertex2f(60,70);
+    glVertex2f(40,60);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(40,60);
+    glVertex2f(60,50);
+    glVertex2f(60,40);
+    glVertex2f(40,50);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(70,80);
+    glVertex2f(110,80);
+    glVertex2f(110,70);
+    glVertex2f(70,70);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(40,60);
+    glVertex2f(60,50);
+    glVertex2f(60,40);
+    glVertex2f(40,50);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(100,70);
+    glVertex2f(110,70);
+    glVertex2f(110,40);
+    glVertex2f(100,40);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(100,50);
+    glVertex2f(100,40);
+    glVertex2f(70,40);
+    glVertex2f(70,50);
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glVertex2f(70,50);
+    glVertex2f(80,50);
+    glVertex2f(80,70);
+    glVertex2f(70,70);
+
+    glEnd();
+    glPopMatrix();
+}
+
 //looping pada box yang bergerak secara horizontal
 void displaybox()
 {
@@ -1048,28 +1111,28 @@ void displaybox2()
     float a = 0;
     float b = 124;
     float c = 200;
-    for (int i=0; i<=1000; i++){
+    for (int j=0; j<=1000; j++){
         glPushMatrix();
         glTranslated(a,b,0);
         box2();
         glPopMatrix();
         b += c;
-        if (i%6 == 0){
+        if (j%6 == 0){
             a = 25;
         }
-        else if (i%6 == 1){
+        else if (j%6 == 1){
             a = 70;
         }
-        else if (i%6 == 2){
+        else if (j%6 == 2){
             a = 90;
         }
-        else if (i%6 == 3){
+        else if (j%6 == 3){
             a = 40;
         }
-        else if (i%6 == 4){
+        else if (j%6 == 4){
             a = 35;
         }
-        else if (i%6 == 5){
+        else if (j%6 == 5){
             a = 55;
         }
     }
@@ -1079,7 +1142,7 @@ void displaybox2()
 void displayRumah()
 {
     float a = 0;
-    for (int i = 0; i<=1000; i++){
+    for (int k = 0; k<=1000; k++){
         glPushMatrix();
         glTranslated(a,0,0);
         rumah();
@@ -1143,6 +1206,11 @@ void boxMoveHorizontal(int data)
         x[1] += 0.3f;
         bot += 0.3f;
     }
+    if (posisiX[0] <= x[1]-17 && posisiY[0] <= y[1] && posisiX[1] >= x[0]-17 && posisiY[1] >= y[0]){
+        movee = false;
+        jatuh = false;
+        skor = false;
+    }
     glutPostRedisplay();
     glutTimerFunc(5,boxMoveHorizontal,0);
 }
@@ -1203,6 +1271,9 @@ void displayMe()
     displayTulisanSkor();
     displaySkor();
     sapi();
+    if (posisiX[0] <= x[1]-17 && posisiY[0] <= y[1] && posisiX[1] >= x[0]-17 && posisiY[1] >= y[0]){
+        kalah();
+    }
     glFlush();
     glutSwapBuffers();
 }
